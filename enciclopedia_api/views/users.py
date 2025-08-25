@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.db.models import *
 from django.db import transaction
-from consultorio_api.serializers import *
-from consultorio_api.models import *
+from enciclopedia_api.serializers import *
+from enciclopedia_api.models import *
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication, TokenAuthentication
 from rest_framework.generics import CreateAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework import permissions

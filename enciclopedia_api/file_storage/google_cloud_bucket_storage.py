@@ -3,7 +3,7 @@ from django.conf import settings
 import os
 from django.http import HttpResponse, Http404
 from google.cloud import storage
-from consultorio_api.data_utils import DataUtils
+from enciclopedia_api.data_utils import DataUtils
 
 class GoogleCloudBucketStorage():
 

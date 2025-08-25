@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.db.models import *
 from django.db import transaction
-from consultorio_api.serializers import *
-from consultorio_api.models import *
+from enciclopedia_api.serializers import *
+from enciclopedia_api.models import *
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication, TokenAuthentication
 from rest_framework.generics import CreateAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework import permissions
@@ -29,11 +29,11 @@ from django.template.loader import render_to_string
 import string
 import random
 import json
-from consultorio_api.puentes.mail import MailsBridge
-from consultorio_api.file_storage.factory import FileStorageFactory
+from enciclopedia_api.puentes.mail import MailsBridge
+from enciclopedia_api.file_storage.factory import FileStorageFactory
 from django.db import transaction
-from consultorio_api.cypher_utils import CypherUtils
-from consultorio_api.data_utils import DataUtils
+from enciclopedia_api.cypher_utils import CypherUtils
+from enciclopedia_api.data_utils import DataUtils
 
 class VersionView(generics.GenericAPIView):
 

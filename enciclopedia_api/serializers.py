@@ -1,25 +1,24 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from consultorio_api.models import *
+from enciclopedia_api.models import *
+
+from django.contrib.auth.models import User
+from rest_framework import serializers
+from .models import Profiles, Personaje
 
 class UserSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
-    email = serializers.CharField(required=True)
-
     class Meta:
         model = User
-        fields = ('id','first_name','last_name', 'email')
+        fields = ("id", "first_name", "last_name", "email")
 
 class ProfilesSerializer(serializers.ModelSerializer):
-    user=UserSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Profiles
         fields = "__all__"
-class ProfilesAllSerializer(serializers.ModelSerializer):
-    #user=UserSerializer(read_only=True)
+
+class PersonajeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profiles
-        fields = '__all__'
-        depth = 1
+        model = Personaje
+        fields = "__all__"

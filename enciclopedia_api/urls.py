@@ -15,19 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from consultorio_api.views import bootstrap
-from consultorio_api.views import users
-from consultorio_api.views import auth
+from enciclopedia_api.views import bootstrap
+from enciclopedia_api.views import users
+from enciclopedia_api.views import auth
+
+
+from django.contrib import admin
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from enciclopedia_api.views.personajes import PersonajeViewSet
+
+router = DefaultRouter()
+router.register(r"personajes", PersonajeViewSet, basename="personajes")
 
 urlpatterns = [
-    #Version
-        path('bootstrap/version', bootstrap.VersionView.as_view()),
-    #Create User
-        path('users/', users.UsersView.as_view()),
-    #User Data
-        path('me/', users.Userme.as_view()),
-    #Login
-        path('token/', auth.CustomAuthToken.as_view()),
-    #Logout
-        path('logout/', auth.Logout.as_view())
+    path("admin/", admin.site.urls),
+    path("api/", include(router.urls)),
+    path("api-auth/", include("rest_framework.urls")),
 ]

@@ -1,0 +1,11 @@
+[
+  {"model": "enciclopedia_api.personaje", "pk": 1,
+   "fields": {"nombre": "Goku", "especie": "Saiyan", "genero": "Masculino",
+              "base_ki": 9000, "total_ki": 150000000, "afiliacion": "Z Fighters"}},
+  {"model": "enciclopedia_api.personaje", "pk": 2,
+   "fields": {"nombre": "Vegeta", "especie": "Saiyan", "genero": "Masculino",
+              "base_ki": 8500, "total_ki": 140000000, "afiliacion": "Z Fighters"}},
+  {"model": "enciclopedia_api.personaje", "pk": 3,
+   "fields": {"nombre": "Gohan", "especie": "Saiyan/Humano", "genero": "Masculino",
+              "base_ki": 6000, "total_ki": 120000000, "afiliacion": "Z Fighters"}}
+]
