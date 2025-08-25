@@ -29,5 +29,10 @@ class Personaje(models.Model):
     base_ki = models.FloatField()
     total_ki = models.FloatField()
     afiliacion = models.CharField(max_length=100)
+
+     # NUEVO
+    descripcion = models.TextField(blank=True)
+    imagen = models.ImageField(upload_to="personajes/", blank=True, null=True)
+    imagen_url = models.URLField(blank=True)
     def __str__(self):
         return self.nombre

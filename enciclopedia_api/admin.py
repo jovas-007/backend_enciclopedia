@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import Profiles, Personaje
 
 @admin.register(Profiles)
@@ -8,7 +9,14 @@ class ProfilesAdmin(admin.ModelAdmin):
 
 @admin.register(Personaje)
 class PersonajeAdmin(admin.ModelAdmin):
-    list_display = ("id", "nombre", "especie", "genero", "base_ki", "total_ki", "afiliacion")
+    list_display = ("id", "nombre", "especie", "genero", "base_ki", "total_ki", "afiliacion", "miniatura")
     list_filter = ("especie", "genero", "afiliacion")
-    search_fields = ("nombre", "especie", "afiliacion")
+    search_fields = ("nombre", "especie", "afiliacion", "descripcion")
     ordering = ("nombre",)
+
+    def miniatura(self, obj):
+        url = obj.imagen.url if obj.imagen else obj.imagen_url
+        if url:
+            return format_html('<img src="{}" style="height:40px;"/>', url)
+        return "-"
+    miniatura.short_description = "Imagen"

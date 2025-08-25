@@ -1,15 +1,12 @@
-from rest_framework import viewsets, permissions
-from enciclopedia_api.models import Personaje
-from enciclopedia_api.serializers import PersonajeSerializer
-
-
-
 from rest_framework import viewsets, permissions, filters as drf_filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django_filters import rest_framework as df
+
 from enciclopedia_api.models import Personaje
 from enciclopedia_api.serializers import PersonajeSerializer
+
 
 class PersonajeFilter(df.FilterSet):
     # Filtros numéricos por rango
@@ -31,19 +28,19 @@ class PersonajeFilter(df.FilterSet):
             "base_ki_min", "base_ki_max", "total_ki_min", "total_ki_max"
         ]
 
+
 class PersonajeViewSet(viewsets.ModelViewSet):
     queryset = Personaje.objects.all().order_by("nombre")
     serializer_class = PersonajeSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    # Para subir imágenes (multipart) y también JSON normal
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+
     # Búsqueda y ordenamiento
-    filter_backends = [
-        df.DjangoFilterBackend,
-        drf_filters.SearchFilter,
-        drf_filters.OrderingFilter,
-    ]
+    filter_backends = [df.DjangoFilterBackend, drf_filters.SearchFilter, drf_filters.OrderingFilter]
     filterset_class = PersonajeFilter
-    search_fields = ["nombre", "especie", "afiliacion"]
+    search_fields = ["nombre", "especie", "afiliacion", "descripcion"]
     ordering_fields = ["nombre", "base_ki", "total_ki"]
     ordering = ["nombre"]
 
@@ -68,20 +65,16 @@ class PersonajeViewSet(viewsets.ModelViewSet):
             ids = [int(a), int(b)]
 
         if len(ids) != 2:
-            return Response(
-                {"detail": "Debes enviar dos IDs: ?ids=1,2 o ?a=1&b=2"},
-                status=400,
-            )
+            return Response({"detail": "Debes enviar dos IDs: ?ids=1,2 o ?a=1&b=2"}, status=400)
 
         qs = list(Personaje.objects.filter(id__in=ids))
         if len(qs) != 2:
             return Response({"detail": "No se encontraron ambos personajes."}, status=404)
 
-        data = PersonajeSerializer(qs, many=True).data
-        # Ordena por id para consistencia
+        # ¡IMPORTANTE! pasar request al serializer para que imagen_src sea absoluta
+        data = PersonajeSerializer(qs, many=True, context={"request": request}).data
         data.sort(key=lambda x: x["id"])
 
-        # Cálculo de diferencias
         base_ki_delta = data[1]["base_ki"] - data[0]["base_ki"]
         total_ki_delta = data[1]["total_ki"] - data[0]["total_ki"]
 
