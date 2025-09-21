@@ -29,8 +29,11 @@ from enciclopedia_api.views.personajes import PersonajeViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 
+from enciclopedia_api.views.statistics import StatisticsViewSet
+
 router = DefaultRouter()
 router.register(r"personajes", PersonajeViewSet, basename="personajes")
+router.register(r"statistics", StatisticsViewSet, basename="statistics")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
