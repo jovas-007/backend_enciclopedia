@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',       # conserva soporte de tokens de DRF
     'corsheaders',                    # librería CORS actualizada
     'enciclopedia_api',
+    'scraper',                        # nueva app para el scraper
 ]
 
 MIDDLEWARE = [

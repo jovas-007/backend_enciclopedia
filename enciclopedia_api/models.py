@@ -23,16 +23,33 @@ class Profiles(models.Model):
         return f"Perfil de {self.user.first_name} {self.user.last_name}"
 
 class Personaje(models.Model):
-    nombre = models.CharField(max_length=100)
-    especie = models.CharField(max_length=100)
-    genero = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=100, null=True, blank=True)
+    especie = models.CharField(max_length=100, null=True, blank=True)
+    genero = models.CharField(max_length=50, null=True, blank=True)
     base_ki = models.FloatField()
     total_ki = models.FloatField()
-    afiliacion = models.CharField(max_length=100)
-
+    afiliacion = models.CharField(max_length=100, null=True, blank=True)
      # NUEVO
-    descripcion = models.TextField(blank=True)
+    descripcion = models.TextField(null=True, blank=True)
     imagen = models.ImageField(upload_to="personajes/", blank=True, null=True)
     imagen_url = models.URLField(blank=True)
+    # Campos para control de creación y actualización
+    creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    update = models.DateTimeField(null=True, blank=True)
     def __str__(self):
         return self.nombre
+
+class Episodios(models.Model):
+    # Agregar un campo 'id' personalizado como clave primaria
+    id = models.AutoField(primary_key=True) 
+    nombre = models.CharField(max_length=255, null=True, blank=True)
+    saga = models.CharField(max_length=100, null=True, blank=True)
+    arco = models.CharField(max_length=100, null=True, blank=True)
+    numero = models.IntegerField()
+    url = models.URLField()
+    # Campos para control de creación y actualización
+    creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    update = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.nombre} - {self.saga} - {self.numero}"
